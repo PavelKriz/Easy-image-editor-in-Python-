@@ -6,12 +6,12 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-#pro praci se soubory
+# pro praci se soubory
 import tkinter as tk
 from tkinter import filedialog
-#nacteni obrazku
+# nacteni obrazku
 from PIL import Image
-#prace s obrazky
+# prace s obrazky
 import numpy as np
 # UI
 from PyQt5 import QtCore, QtGui, QtWidgets

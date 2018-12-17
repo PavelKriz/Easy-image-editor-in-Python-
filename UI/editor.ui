@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>550</width>
+    <height>453</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>550</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+   </widget>
+   <addaction name="menuMenu"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRotLeft"/>
+   <addaction name="actionRotRight"/>
+   <addaction name="actionFlip"/>
+   <addaction name="actionInvert"/>
+   <addaction name="actionBrightUp"/>
+   <addaction name="actionBrightDown"/>
+   <addaction name="actionRGBtoRW"/>
+   <addaction name="actionEdges"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="icon">
+    <iconset>
+     <normaloff>undo.jpg</normaloff>undo.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="toolTip">
+    <string>Vrati se o krok zpet</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionRotLeft">
+   <property name="icon">
+    <iconset>
+     <normaloff>90doleva.jpg</normaloff>90doleva.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>RotLeft</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotace doleva o 90 stupňů.</string>
+   </property>
+  </action>
+  <action name="actionRotRight">
+   <property name="icon">
+    <iconset>
+     <normaloff>90doprava.jpg</normaloff>90doprava.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>RotRight</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotace doprava o 90 stupňů.</string>
+   </property>
+  </action>
+  <action name="actionFlip">
+   <property name="icon">
+    <iconset>
+     <normaloff>flip.jpg</normaloff>flip.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Flip</string>
+   </property>
+   <property name="toolTip">
+    <string>Zrcadleni obrazku</string>
+   </property>
+  </action>
+  <action name="actionInvert">
+   <property name="icon">
+    <iconset>
+     <normaloff>invert.jpg</normaloff>invert.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Invert</string>
+   </property>
+   <property name="toolTip">
+    <string>Invertuje obrázek.</string>
+   </property>
+  </action>
+  <action name="actionBrightUp">
+   <property name="icon">
+    <iconset>
+     <normaloff>brightUP.jpg</normaloff>brightUP.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>BrightUp</string>
+   </property>
+   <property name="toolTip">
+    <string>Zvýší jas.</string>
+   </property>
+  </action>
+  <action name="actionBrightDown">
+   <property name="icon">
+    <iconset>
+     <normaloff>brightDOWN.jpg</normaloff>brightDOWN.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>BrightDown</string>
+   </property>
+   <property name="toolTip">
+    <string>Sníží jas obrázku.</string>
+   </property>
+  </action>
+  <action name="actionEdges">
+   <property name="icon">
+    <iconset>
+     <normaloff>edges.jpg</normaloff>edges.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Edges</string>
+   </property>
+   <property name="toolTip">
+    <string>Zvýrazní hrany.</string>
+   </property>
+  </action>
+  <action name="actionRGBtoRW">
+   <property name="icon">
+    <iconset>
+     <normaloff>RGBtoBW.jpg</normaloff>RGBtoBW.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>RGBtoRW</string>
+   </property>
+   <property name="toolTip">
+    <string>Převede barevný obrázek na černobílý.</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="ikony.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,14 @@
+<RCC>
+  <qresource/>
+  <qresource prefix="nováPředpona">
+    <file>90doleva.jpg</file>
+    <file>90doprava.jpg</file>
+    <file>brightDOWN.jpg</file>
+    <file>brightUP.jpg</file>
+    <file>edges.jpg</file>
+    <file>flip.jpg</file>
+    <file>invert.jpg</file>
+    <file>RGBtoBW.jpg</file>
+    <file>undo.jpg</file>
+  </qresource>
+</RCC>

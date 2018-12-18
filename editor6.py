@@ -6,7 +6,6 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
 # pro praci se soubory
 import medianFilter
 import tkinter as tk
@@ -18,20 +17,21 @@ import numpy as np
 # UI
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
+	size = 500
 	NPundo = np.empty((2,2))
 	NPimg = np.empty((2,2))
-	rgbBackup = False
-	'''rgb = True
-	Iundo = 0
-	IundoControl = 0
-	BundoControl = True
-	Lundo1 = []
-	Lundo2 = []'''
+	rgb = True
 	def setupUi(self, MainWindow):
 		MainWindow.setObjectName("MainWindow")
-		MainWindow.resize(550, 453)
+		MainWindow.resize(636, 617)
+		MainWindow.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+		MainWindow.setMouseTracking(False)
+		MainWindow.setStyleSheet("border-color: rgb(255, 255, 255);\n"
+"selection-background-color: rgb(135, 171, 255);\n"
+"background-color: rgb(255, 255, 255);")
 		self.centralwidget = QtWidgets.QWidget(MainWindow)
 		self.centralwidget.setObjectName("centralwidget")
 		self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -42,17 +42,17 @@ class Ui_MainWindow(object):
 		self.verticalLayout_2.addWidget(self.label)
 		MainWindow.setCentralWidget(self.centralwidget)
 		self.menubar = QtWidgets.QMenuBar(MainWindow)
-		self.menubar.setGeometry(QtCore.QRect(0, 0, 550, 21))
+		self.menubar.setGeometry(QtCore.QRect(0, 0, 636, 21))
 		self.menubar.setObjectName("menubar")
 		self.menuMenu = QtWidgets.QMenu(self.menubar)
 		self.menuMenu.setObjectName("menuMenu")
+		self.menuFilters = QtWidgets.QMenu(self.menubar)
+		self.menuFilters.setObjectName("menuFilters")
 		MainWindow.setMenuBar(self.menubar)
 		self.toolBar = QtWidgets.QToolBar(MainWindow)
+		self.toolBar.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
 		self.toolBar.setObjectName("toolBar")
 		MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.toolBar)
-		self.statusBar = QtWidgets.QStatusBar(MainWindow)
-		self.statusBar.setObjectName("statusBar")
-		MainWindow.setStatusBar(self.statusBar)
 		self.actionOpen = QtWidgets.QAction(MainWindow)
 		self.actionOpen.setObjectName("actionOpen")
 		self.actionUndo = QtWidgets.QAction(MainWindow)
@@ -102,9 +102,26 @@ class Ui_MainWindow(object):
 		icon8.addPixmap(QtGui.QPixmap("icons/RGBtoBW.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
 		self.actionRGBtoRW.setIcon(icon8)
 		self.actionRGBtoRW.setObjectName("actionRGBtoRW")
+		self.actionCrazy_Rainbow = QtWidgets.QAction(MainWindow)
+		self.actionCrazy_Rainbow.setObjectName("actionCrazy_Rainbow")
+		self.actionBigger = QtWidgets.QAction(MainWindow)
+		icon9 = QtGui.QIcon()
+		icon9.addPixmap(QtGui.QPixmap("icons/bigger.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+		self.actionBigger.setIcon(icon9)
+		self.actionBigger.setObjectName("actionBigger")
+		self.actionexitp = QtWidgets.QAction(MainWindow)
+		self.actionexitp.setObjectName("actionexitp")
+		self.actionSmaller = QtWidgets.QAction(MainWindow)
+		icon10 = QtGui.QIcon()
+		icon10.addPixmap(QtGui.QPixmap("icons/smaller.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+		self.actionSmaller.setIcon(icon10)
+		self.actionSmaller.setObjectName("actionSmaller")
 		self.menuMenu.addAction(self.actionOpen)
 		self.menuMenu.addAction(self.actionSave)
+		self.menuMenu.addAction(self.actionexitp)
+		self.menuFilters.addAction(self.actionCrazy_Rainbow)
 		self.menubar.addAction(self.menuMenu.menuAction())
+		self.menubar.addAction(self.menuFilters.menuAction())
 		self.toolBar.addAction(self.actionUndo)
 		self.toolBar.addAction(self.actionRotLeft)
 		self.toolBar.addAction(self.actionRotRight)
@@ -114,14 +131,17 @@ class Ui_MainWindow(object):
 		self.toolBar.addAction(self.actionBrightDown)
 		self.toolBar.addAction(self.actionRGBtoRW)
 		self.toolBar.addAction(self.actionEdges)
+		self.toolBar.addAction(self.actionBigger)
+		self.toolBar.addAction(self.actionSmaller)
 		
 		self.retranslateUi(MainWindow)
 		QtCore.QMetaObject.connectSlotsByName(MainWindow)
 		
 	def retranslateUi(self, MainWindow):
 		_translate = QtCore.QCoreApplication.translate
-		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+		MainWindow.setWindowTitle(_translate("MainWindow", "PK-Easy image editor"))
 		self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
+		self.menuFilters.setTitle(_translate("MainWindow", "Filters"))
 		self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
 		self.actionOpen.setText(_translate("MainWindow", "Open"))
 		self.actionUndo.setText(_translate("MainWindow", "Undo"))
@@ -143,6 +163,13 @@ class Ui_MainWindow(object):
 		self.actionEdges.setToolTip(_translate("MainWindow", "Zvýrazní hrany."))
 		self.actionRGBtoRW.setText(_translate("MainWindow", "RGBtoRW"))
 		self.actionRGBtoRW.setToolTip(_translate("MainWindow", "Převede barevný obrázek na černobílý."))
+		self.actionCrazy_Rainbow.setText(_translate("MainWindow", "Crazy Rainbow"))
+		self.actionBigger.setText(_translate("MainWindow", "Bigger"))
+		self.actionBigger.setToolTip(_translate("MainWindow", "Zvětší náhled obrázku"))
+		self.actionexitp.setText(_translate("MainWindow", "exitp"))
+		self.actionexitp.setToolTip(_translate("MainWindow", "Ukončí program."))
+		self.actionSmaller.setText(_translate("MainWindow", "Smaller"))
+		self.actionSmaller.setToolTip(_translate("MainWindow", "Zmenší náhled obrázku"))
 		
 		#vazby
 		self.actionOpen.triggered.connect(self.OpenImage)
@@ -155,15 +182,29 @@ class Ui_MainWindow(object):
 		self.actionBrightDown.triggered.connect(self.darken)
 		self.actionEdges.triggered.connect(self.unsharpMask)
 		self.actionUndo.triggered.connect(self.undo)
+		self.actionexitp.triggered.connect(self.exitp)
+		self.actionCrazy_Rainbow.triggered.connect(self.rainBowFilt)
+		self.actionSmaller.triggered.connect(self.smaller)
+		self.actionBigger.triggered.connect(self.bigger)
 		
+	def exitp(self):
+		exit()
+	
 	def undo(self):
 		self.NPimg = self.NPundo
 		self.showImage( self.NPimg)
 	def backup(self):
-		print(self.NPimg)
 		self.NPundo = self.NPimg
-		print(self.NPundo)
 		
+	def bigger(self):
+		self.size = int(self.size * 1.2)
+		self.showImage(self.NPimg)
+	def smaller(self):
+		self.size = int(self.size / 1.2)
+		self.showImage(self.NPimg)
+		
+		
+	# rozpracovane Undo s vetsim bufferem nez jedna	
 	'''
 	def Undo(self):
 		if self.BundoControl:
@@ -227,6 +268,7 @@ class Ui_MainWindow(object):
 		self.showImage( self.NPimg)
 	
 	def RGBtoBW (self):
+		rgb = False
 		self.backup()
 		self.NPimg.setflags(write=1)
 		self.NPimg[:] = np.max(self.NPimg,axis=-1,keepdims=1)/2+np.min(self.NPimg,axis=-1,keepdims=1)/2
@@ -237,7 +279,7 @@ class Ui_MainWindow(object):
 		NPmed = np.asarray(self.NPimg)
 		NPmed.setflags(write=1)
 		height, width,rgb = self.NPimg.shape
-		if rgb:
+		if self.rgb:
 			NPmed = medianFilter.medianRGB(self.NPimg,NPmed,width,height)
 		else:
 			NPmed = medianFilter.medianBW(self.NPimg,NPmed,width,height)
@@ -260,12 +302,16 @@ class Ui_MainWindow(object):
 		
 	def rainBowFilt(self):
 		self.backup()
-		gaussian_3 = cv2.GaussianBlur(self.NPimg, (9,9), 10.0)
+		height, width,rgb = self.NPimg.shape
+		if self.rgb:
+			med = medianFilter.medianRGB(self.NPimg,np.asarray(self.NPimg),width,height)
+		else:
+			med = medianFilter.medianBW(self.NPimg,np.asarray(self.NPimg),width,height)
 		#self.NPimg = cv2.addWeighted(self.NPimg, 1.5, gaussian_3, -0.5, 0, self.NPimg)
 		origL = lambda x: x*1.5
 		gaussL = lambda x: x*(-0.5)
 		imOL = np.array([origL(x) for x in self.NPimg ])
-		imGL = np.array([gaussL(x) for x in gaussian_3])
+		imGL = np.array([gaussL(x) for x in med])
 		self.NPimg = imOL + imGL# + gamma
 		self.showImage( self.NPimg)
 		
@@ -281,16 +327,17 @@ class Ui_MainWindow(object):
 		
 	def showImage(self, NPimgShow):
 		image_profile = QtGui.QImage(NPimgShow, NPimgShow.shape[1], NPimgShow.shape[0], NPimgShow.shape[1] * 3,QtGui.QImage.Format_RGB888) #QImage object
-		image_profile = image_profile.scaled(800,800, aspectRatioMode=QtCore.Qt.KeepAspectRatio, transformMode=QtCore.Qt.SmoothTransformation) # To scale image for example and keep its Aspect Ration    
+		image_profile = image_profile.scaled(self.size,self.size, aspectRatioMode=QtCore.Qt.KeepAspectRatio, transformMode=QtCore.Qt.SmoothTransformation) # To scale image for example and keep its Aspect Ration    
 		self.label.setPixmap(QtGui.QPixmap.fromImage(image_profile))
+		
+
 
 if __name__ == "__main__":
-	import sys
-	app = QtWidgets.QApplication(sys.argv)
-#	app.setWindowIcon('invert.jpg')
-	MainWindow = QtWidgets.QMainWindow()
-	ui = Ui_MainWindow()
-	ui.setupUi(MainWindow)
-	MainWindow.show()
-	sys.exit(app.exec_())
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
 

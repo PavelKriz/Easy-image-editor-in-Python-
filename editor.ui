@@ -6,12 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>453</height>
+    <width>636</width>
+    <height>617</height>
    </rect>
   </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PK-Easy image editor</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">border-color: rgb(255, 255, 255);
+selection-background-color: rgb(135, 171, 255);
+background-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -29,7 +40,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>550</width>
+     <width>636</width>
      <height>21</height>
     </rect>
    </property>
@@ -39,12 +50,23 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionexitp"/>
+   </widget>
+   <widget class="QMenu" name="menuFilters">
+    <property name="title">
+     <string>Filters</string>
+    </property>
+    <addaction name="actionCrazy_Rainbow"/>
    </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuFilters"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
@@ -61,8 +83,9 @@
    <addaction name="actionBrightDown"/>
    <addaction name="actionRGBtoRW"/>
    <addaction name="actionEdges"/>
+   <addaction name="actionBigger"/>
+   <addaction name="actionSmaller"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
@@ -179,6 +202,43 @@
    </property>
    <property name="toolTip">
     <string>Převede barevný obrázek na černobílý.</string>
+   </property>
+  </action>
+  <action name="actionCrazy_Rainbow">
+   <property name="text">
+    <string>Crazy Rainbow</string>
+   </property>
+  </action>
+  <action name="actionBigger">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/bigger.jpg</normaloff>icons/bigger.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Bigger</string>
+   </property>
+   <property name="toolTip">
+    <string>Zvětší náhled obrázku</string>
+   </property>
+  </action>
+  <action name="actionexitp">
+   <property name="text">
+    <string>exitp</string>
+   </property>
+   <property name="toolTip">
+    <string>Ukončí program.</string>
+   </property>
+  </action>
+  <action name="actionSmaller">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/smaller.jpg</normaloff>icons/smaller.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Smaller</string>
+   </property>
+   <property name="toolTip">
+    <string>Zmenší náhled obrázku</string>
    </property>
   </action>
  </widget>

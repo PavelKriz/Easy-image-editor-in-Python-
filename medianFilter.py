@@ -2,7 +2,6 @@ from PIL import Image
 import numpy as np
 from numba import jit
 
-
 def median(NPimg, NPnewImg,width,height):
 	one = np.zeros((height, width), int)
 	two = np.zeros((height, width), int)
@@ -27,7 +26,7 @@ def median(NPimg, NPnewImg,width,height):
 	NPnewImg = NPnewImg.astype('uint8')
 	return NPnewImg
 
-def getMedian(NPimg,NPnewImg,width,height):
+def medianRGB(NPimg,NPnewImg,width,height):
 	R = (1,0,0) * NPimg
 	G = (0,1,0) * NPimg
 	B = (0,0,1) * NPimg
@@ -43,26 +42,11 @@ def getMedian(NPimg,NPnewImg,width,height):
 	RGB = np.dstack((R3,G3,B3))
 	NPnewImg = np.asarray(RGB,dtype='int64')
 	return NPnewImg
-	#RGBI = Image.fromarray(RGB.astype('uint8'))
-	#RGBI.save('out12.jpg')		
-			
-path = "obrazek.JPG" 
-img = Image.open(path)
-members = [(0,0)] * 9
-width, height = img.size
-newimg = Image.new("RGB",(width,height),"white")
-NPimg = np.asarray(img)
-NPmed = np.asarray(newimg)
-NPmed.setflags(write=1)
-
-NPmed = getMedian(NPimg,NPmed,width,height)
 	
-NPimg2 = NPimg.astype('int64')
-NPmed2 = NPmed.astype('int64')
-Mask = NPimg2 - NPmed2
-#Mask = Mask + 255
-Mask[Mask < 0 ] = 0
-NPresult = NPimg2 + Mask
-NPresult[NPresult > 255 ] = 255
-medianIMG = Image.fromarray(NPresult.astype('uint8'))
-medianIMG.save('obrazek2.jpg')
+def medianBW(NPimg,NPnewImg,width,height):
+	NPmed = np.asarray(NPimg,dtype='int64')
+	NPmed = median(NPimg,NPnewImg,width,height)
+	return NPmed
+
+
+

@@ -17,5 +17,7 @@ Made for school project (CTU in Prague). It's primitive image editor with basic 
 	* enlarge preview
 	* reduce preview
 	* crazy rainbow filter (its not working well)
+	
+Turn it on in the command line (python 64 bit recommended)
 
 	

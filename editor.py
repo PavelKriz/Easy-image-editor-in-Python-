@@ -3,27 +3,29 @@
 # Form implementation generated from reading ui file 'editor.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
 
-# pro praci se soubory
+# for unsharpMasking
 import medianFilter
+# tkinter for working with files
 import tkinter as tk
 from tkinter import filedialog
-# nacteni obrazku
+# load image
 from PIL import Image
-# prace s obrazky
+# for image save
 import numpy as np
-# UI
-from PyQt5 import QtCore, QtGui, QtWidgets
-
+# UI desing
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
+	# size is intern number for resizing image, image is resized with keeping same aspect ratio
+	# numpy Image representation, and undo backup image
 	size = 500
 	NPundo = np.empty((2,2))
 	NPimg = np.empty((2,2))
+	#indicator if image is colorfull
 	rgb = True
+	
+	# UI setup genereted by: PyQt5 UI code generator 5.11.3
 	def setupUi(self, MainWindow):
 		MainWindow.setObjectName("MainWindow")
 		MainWindow.resize(636, 617)
@@ -137,6 +139,7 @@ class Ui_MainWindow(object):
 		self.retranslateUi(MainWindow)
 		QtCore.QMetaObject.connectSlotsByName(MainWindow)
 		
+# UI setup genereted by: PyQt5 UI code generator 5.11.3		
 	def retranslateUi(self, MainWindow):
 		_translate = QtCore.QCoreApplication.translate
 		MainWindow.setWindowTitle(_translate("MainWindow", "PK-Easy image editor"))
@@ -171,7 +174,8 @@ class Ui_MainWindow(object):
 		self.actionSmaller.setText(_translate("MainWindow", "Smaller"))
 		self.actionSmaller.setToolTip(_translate("MainWindow", "Zmenší náhled obrázku"))
 		
-		#vazby
+# buttons relations
+
 		self.actionOpen.triggered.connect(self.OpenImage)
 		self.actionRotLeft.triggered.connect(self.rotLeft)
 		self.actionRotRight.triggered.connect(self.rotRight)
@@ -187,25 +191,7 @@ class Ui_MainWindow(object):
 		self.actionSmaller.triggered.connect(self.smaller)
 		self.actionBigger.triggered.connect(self.bigger)
 		self.actionSave.triggered.connect(self.saveImage)
-		
-	def exitp(self):
-		exit()
-	
-	def undo(self):
-		self.NPimg = self.NPundo
-		self.showImage( self.NPimg)
-	def backup(self):
-		self.NPundo = self.NPimg
-		
-	def bigger(self):
-		self.size = int(self.size * 1.2)
-		self.showImage(self.NPimg)
-	def smaller(self):
-		self.size = int(self.size / 1.2)
-		self.showImage(self.NPimg)
-		
-		
-	# rozpracovane Undo s vetsim bufferem nez jedna	
+# not ended implemented bigger undo buffer
 	'''
 	def Undo(self):
 		if self.BundoControl:
@@ -234,47 +220,68 @@ class Ui_MainWindow(object):
 			BundoControl = True
 			self.Lundo1 = []
 	'''
+# image operations functions or supporting functions
+# ends program
+	def exitp(self):
+		exit()
+# backup before previus operation
+	def undo(self):
+		self.NPimg = self.NPundo
+		self.showImage( self.NPimg)
+# save for undo before image operation		
+	def backup(self):
+		self.NPundo = self.NPimg
+# enlarge image preview
+	def bigger(self):
+		self.size = int(self.size * 1.2)
+		self.showImage(self.NPimg)
+# reduce image preview	
+	def smaller(self):
+		self.size = int(self.size / 1.2)
+		self.showImage(self.NPimg)
+# rotate image to left		
 	def rotLeft(self):
 		self.backup()
 		self.NPimg = np.rot90(self.NPimg, axes = (0, 1)).copy()
 		self.showImage( self.NPimg)
-		
+# rotate image to right		
 	def rotRight(self):
 		self.backup()
 		self.NPimg = np.rot90(self.NPimg, axes = (1, 0)).copy()
 		self.showImage( self.NPimg)
-	
+# mirrors image
 	def flip(self):
 		self.backup()
 		self.NPimg = np.flip(self.NPimg, 1).copy()
 		self.showImage( self.NPimg)
-		
+#invert RGB values (modulo 256 values)
 	def invert(self):
 		self.backup()
 		self.NPimg = 255 - self.NPimg
 		self.showImage( self.NPimg)
-		
+# make image RGB wallues higher by 10 or set them to 255 if they are too big
 	def brighten(self):
 		self.backup()
 		self.NPimg.setflags(write=1)
 		self.NPimg[self.NPimg > 245] = 245
 		self.NPimg = self.NPimg + 10
 		self.showImage( self.NPimg)
-
+# make image RGB wallues lower by 10 or set them to 0 if they are too small
 	def darken(self):
 		self.backup()
 		self.NPimg.setflags(write=1)
 		self.NPimg[self.NPimg < 10] = 10
 		self.NPimg = self.NPimg - 10
 		self.showImage( self.NPimg)
-	
+# convert colorfull image into black and white one
 	def RGBtoBW (self):
 		rgb = False
 		self.backup()
 		self.NPimg.setflags(write=1)
 		self.NPimg[:] = np.max(self.NPimg,axis=-1,keepdims=1)/2+np.min(self.NPimg,axis=-1,keepdims=1)/2
 		self.showImage(self.NPimg)
-	
+		
+# most difficult operations, using medianfilter, its working as expacted in unsharpMasking
 	def unsharpMask(self):
 		self.backup()
 		NPmed = np.asarray(self.NPimg)
@@ -284,23 +291,20 @@ class Ui_MainWindow(object):
 			NPmed = medianFilter.medianRGB(self.NPimg,NPmed,width,height)
 		else:
 			NPmed = medianFilter.medianBW(self.NPimg,NPmed,width,height)
-		#vyroba masky	
+		#Mask making
 		NPimg2 = self.NPimg.astype('int32')
 		NPmed2 = NPmed.astype('int32')
 		Mask = NPimg2 - NPmed2
-		#nektere body se mohou dostat i pod nulu!
+		# Some pixals may be negative
 		Mask[Mask < 0 ] = 0
-		# aplikace masky
+		# mask aplication
 		NPresult = NPimg2 + Mask
 		NPresult[NPresult > 255 ] = 255
 	
 		self.NPimg = NPresult.astype('uint8')
 		self.showImage( self.NPimg)
-	#	test = Image.fromarray(NPresult.astype('uint8'))
-	#	medianIMG.save('obrazek2.jpg')
 		
-		
-		
+# not working as expacted, it should had making rainbow in shape of stuff in image
 	def rainBowFilt(self):
 		self.backup()
 		height, width,rgb = self.NPimg.shape
@@ -308,14 +312,14 @@ class Ui_MainWindow(object):
 			med = medianFilter.medianRGB(self.NPimg,np.asarray(self.NPimg),width,height)
 		else:
 			med = medianFilter.medianBW(self.NPimg,np.asarray(self.NPimg),width,height)
-		#self.NPimg = cv2.addWeighted(self.NPimg, 1.5, gaussian_3, -0.5, 0, self.NPimg)
 		origL = lambda x: x*1.5
 		gaussL = lambda x: x*(-0.5)
 		imOL = np.array([origL(x) for x in self.NPimg ])
 		imGL = np.array([gaussL(x) for x in med])
-		self.NPimg = imOL + imGL# + gamma
+		self.NPimg = imOL + imGL
 		self.showImage( self.NPimg)
-		
+
+# open image with tkinter filedialog		
 	def OpenImage(self):
 		self.backup()
 		root = tk.Tk()
@@ -325,7 +329,7 @@ class Ui_MainWindow(object):
 			img = Image.open(root.filename)
 			self.NPimg = np.asarray(img)
 			self.showImage( self.NPimg)
-			
+#save image with tkinter filedialog, // if no suffix is given, image is saved as png
 	def saveImage(self):
 		root = tk.Tk()
 		root.withdraw()
@@ -337,14 +341,15 @@ class Ui_MainWindow(object):
 			except ValueError:
 				saveIMG = Image.fromarray(self.NPimg.astype('uint8'))
 				saveIMG.save(root.filename + '.png')
-		
+
+# shows image in Qt label, size is derived from the self.size (it can be changed with bigger and smaller)
 	def showImage(self, NPimgShow):
 		image_profile = QtGui.QImage(NPimgShow, NPimgShow.shape[1], NPimgShow.shape[0], NPimgShow.shape[1] * 3,QtGui.QImage.Format_RGB888) #QImage object
 		image_profile = image_profile.scaled(self.size,self.size, aspectRatioMode=QtCore.Qt.KeepAspectRatio, transformMode=QtCore.Qt.SmoothTransformation) # To scale image for example and keep its Aspect Ration    
 		self.label.setPixmap(QtGui.QPixmap.fromImage(image_profile))
 		
 
-
+#Frame inicalization and run
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

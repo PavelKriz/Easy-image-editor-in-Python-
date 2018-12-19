@@ -1,7 +1,11 @@
+#Implementation of median filter
+#use the medianRGB function for colorfull images
+#use the medianBW function for black and white images
 from PIL import Image
 import numpy as np
 from numba import jit
 
+# find median for every value in their neigbours, return median values array
 def median(NPimg, NPnewImg,width,height):
 	one = np.zeros((height, width), int)
 	two = np.zeros((height, width), int)
@@ -25,7 +29,9 @@ def median(NPimg, NPnewImg,width,height):
 	NPnewImg = np.median(X,2)
 	NPnewImg = NPnewImg.astype('uint8')
 	return NPnewImg
-
+	
+#NPimg = oldIMG, NPnewImg = can be any array with size ant type like oldIMG, width  = width of NPimg, height = height of NPimg
+#returns image with applied median filter
 def medianRGB(NPimg,NPnewImg,width,height):
 	R = (1,0,0) * NPimg
 	G = (0,1,0) * NPimg
@@ -43,6 +49,8 @@ def medianRGB(NPimg,NPnewImg,width,height):
 	NPnewImg = np.asarray(RGB,dtype='int64')
 	return NPnewImg
 	
+#NPimg = oldIMG, NPnewImg = can be any array with size ant type like oldIMG, width  = width of NPimg, height = height of NPimg
+#returns image with applied median filter	
 def medianBW(NPimg,NPnewImg,width,height):
 	NPmed = np.asarray(NPimg,dtype='int64')
 	NPmed = median(NPimg,NPnewImg,width,height)

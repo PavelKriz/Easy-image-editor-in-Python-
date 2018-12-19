@@ -166,7 +166,7 @@ class Ui_MainWindow(object):
 		self.actionCrazy_Rainbow.setText(_translate("MainWindow", "Crazy Rainbow"))
 		self.actionBigger.setText(_translate("MainWindow", "Bigger"))
 		self.actionBigger.setToolTip(_translate("MainWindow", "Zvětší náhled obrázku"))
-		self.actionexitp.setText(_translate("MainWindow", "exitp"))
+		self.actionexitp.setText(_translate("MainWindow", "exit"))
 		self.actionexitp.setToolTip(_translate("MainWindow", "Ukončí program."))
 		self.actionSmaller.setText(_translate("MainWindow", "Smaller"))
 		self.actionSmaller.setToolTip(_translate("MainWindow", "Zmenší náhled obrázku"))
@@ -186,6 +186,7 @@ class Ui_MainWindow(object):
 		self.actionCrazy_Rainbow.triggered.connect(self.rainBowFilt)
 		self.actionSmaller.triggered.connect(self.smaller)
 		self.actionBigger.triggered.connect(self.bigger)
+		self.actionSave.triggered.connect(self.saveImage)
 		
 	def exitp(self):
 		exit()
@@ -319,11 +320,23 @@ class Ui_MainWindow(object):
 		self.backup()
 		root = tk.Tk()
 		root.withdraw()
-		root.filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+		root.filename = filedialog.askopenfilename(initialdir = "/",title = "Vyberte obrazek",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 		if  root.filename:
 			img = Image.open(root.filename)
 			self.NPimg = np.asarray(img)
 			self.showImage( self.NPimg)
+			
+	def saveImage(self):
+		root = tk.Tk()
+		root.withdraw()
+		root.filename = filedialog.asksaveasfilename(initialdir = "/",title = "Uložte obrázek",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+		if root.filename:
+			try:
+				saveIMG = Image.fromarray(self.NPimg.astype('uint8'))
+				saveIMG.save(root.filename)
+			except ValueError:
+				saveIMG = Image.fromarray(self.NPimg.astype('uint8'))
+				saveIMG.save(root.filename + '.png')
 		
 	def showImage(self, NPimgShow):
 		image_profile = QtGui.QImage(NPimgShow, NPimgShow.shape[1], NPimgShow.shape[0], NPimgShow.shape[1] * 3,QtGui.QImage.Format_RGB888) #QImage object
